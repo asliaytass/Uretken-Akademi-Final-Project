@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Shantell+Sans:wght@300&display=swap');
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+}
+
+
+html, body{
+  scroll-behavior: smooth;
+}
+
+.shopName{
+  font-family: 'Shantell Sans', cursive;
+  font-size: 25px;
+  font-weight: 900;
+}
+.basket{
+  font-size: 20px;
+  cursor: pointer;
+  
+}
+.basketInfo{
+width: 16px;
+height: 16px;
+border-radius: 100%;
+background-color: red;
+justify-content: center;
+
+}
+.basketInfo p{
+  font-size: 10px;
+  font-weight: 700;
+  text-align: center;
+  color: white;
+  
+}
+.basket-container{
+  display: flex;
+  justify-content: center;
+}
+
+.login-container{
+display: flex;
+justify-content: center;
+}
+.login{
+  font-size: 20px;
+  cursor: pointer;
+}
