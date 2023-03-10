@@ -1,10 +1,47 @@
-import React from 'react'
+import React, {useState} from 'react'
+ import {Link} from 'react-router-dom'
 import {Container, Navbar, Nav} from 'react-bootstrap'
-import { MdFastfood}  from 'react-icons/md';
-import {FaShoppingBasket} from 'react-icons/fa'
+import { MdFastfood, MdAdd,MdLogout}  from 'react-icons/md';
+import {FaShoppingBasket, FaUserCheck} from 'react-icons/fa'
 import {BiUser} from 'react-icons/bi'
+import {app} from "../firebase.config"
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { useStateValue } from '../context/StateProvider';
+import { actionType } from '../context/reducer';
+
 
 const Header = () => {
+
+const firebaseAuth = getAuth(app)
+const provider = new GoogleAuthProvider();
+
+const [{user}, dispatch ] =useStateValue()
+
+const [isMenu, setIsMenu] = useState(false)
+
+    const userLogin= async ()=>{
+       if(!user){
+        const {user: {refreshToken,providerData}} = await signInWithPopup(firebaseAuth, provider)
+        dispatch({
+            type: actionType.SET_USER,
+            user: providerData[0]
+        })
+        localStorage.setItem("user", JSON.stringify(providerData[0]))
+    }else{
+      setIsMenu(!isMenu)
+    }
+       }
+
+  const logout=()=>{
+    setIsMenu(false)
+    localStorage.clear()
+
+    dispatch({
+      type: actionType.SET_USER,
+      user: null
+    })
+  }
+
   return (
     <div>
 
@@ -35,11 +72,22 @@ const Header = () => {
             <p>0</p>
           </div>
          </div>
-         <div className='login-container'><BiUser className='login mt-2'/></div>
-          
+         <div className='login-container' > 
+         {user ? <FaUserCheck  className='login mt-2' onClick={userLogin}/> : <BiUser className='login mt-2' onClick={userLogin}/>}
 
-
-
+        {
+          isMenu &&  (
+            
+            <div className='userChoose'>
+              { //sadece asli.aytass@gmail ile girdiğimde admin yetkisi gösterilecek
+               user && user.email ==="asli.aytass@gmail.com"&& (
+                 <Link className='link' to={'/createItem'}><p>New Item <MdAdd className='mdAdd ms-1'/></p></Link>
+               )
+              }
+               <p onClick={logout}>Logout<MdLogout className='mdLogout ms-3'/></p>
+             </div>
+           )}
+         </div>
         
         </Navbar.Collapse>
       </Container>
