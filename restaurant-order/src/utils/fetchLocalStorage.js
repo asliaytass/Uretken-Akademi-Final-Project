@@ -3,3 +3,9 @@ export const fetchUser=()=>{
 
     return userInfo;
 }
+
+export const fetchCard=()=>{
+    const cardInfo = localStorage.getItem('cardItems') !== "undefined" ? JSON.parse(localStorage.getItem('cardItems')) : localStorage.clear();
+
+    return cardInfo ? cardInfo :[];
+}

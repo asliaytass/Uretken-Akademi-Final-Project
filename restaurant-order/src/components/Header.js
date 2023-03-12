@@ -15,7 +15,7 @@ const Header = () => {
 const firebaseAuth = getAuth(app)
 const provider = new GoogleAuthProvider();
 
-const [{user}, dispatch ] =useStateValue()
+const [{user,cardItems}, dispatch ] =useStateValue()
 
 const [isMenu, setIsMenu] = useState(false)
 
@@ -43,13 +43,14 @@ const [isMenu, setIsMenu] = useState(false)
   }
 
   return (
-    <div>
+    <div >
 
 <Navbar bg="light" expand="lg">
       <Container >
-        <div>
-        <MdFastfood className='mb-1'/> 
-        <Navbar.Brand href="#" className="shopName ms-2">Food</Navbar.Brand>
+        <div className='logo'>
+        <MdFastfood /> 
+        <Link id='link' to={'/*'} className="d-flex justify-content-center align-item-center "><Navbar.Brand href="#" className="shopName ms-2">Food</Navbar.Brand></Link>
+        
         </div>
       
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -60,17 +61,21 @@ const [isMenu, setIsMenu] = useState(false)
             style={{ maxHeight: '100px' , minHeight:"70px"} }
             navbarScroll
           >
-            <Nav.Link href="#action1" className='mt-3 '>Home</Nav.Link>
-            <Nav.Link href="#action2" className='mt-3 '>Menu</Nav.Link>
-            <Nav.Link href="#action2" className='mt-3 '>About Us</Nav.Link>
+            <Link id='link' to={'/*'} className="d-flex justify-content-center align-item-center mx-4 mt-2"><p className='mt-3 '>Home</p></Link>
+            <Link id='link' to={'/menuContainer'} className="d-flex justify-content-center align-item-center mx-4 my-2"> <p className='mt-3 '>Menu</p></Link>
+            
+           
           </Nav>
           
       
           <div className='basket-container me-2'>
-         <FaShoppingBasket className='basket mt-2 '/>
-          <div className='basketInfo  mt-1'>
+          <Link id='link' to={'/cardContainer'} > <FaShoppingBasket className='basket mt-2 text-black'/></Link>
+         {cardItems && cardItems.length > 0 && ( <div className='basketInfo  mt-1'>
+            <p>{cardItems.length}</p>
+          </div>)}
+          {/* <div className='basketInfo  mt-1'>
             <p>0</p>
-          </div>
+          </div> */}
          </div>
          <div className='login-container' > 
          {user ? <FaUserCheck  className='login mt-2' onClick={userLogin}/> : <BiUser className='login mt-2' onClick={userLogin}/>}
@@ -81,7 +86,7 @@ const [isMenu, setIsMenu] = useState(false)
             <div className='userChoose'>
               { //sadece asli.aytass@gmail ile girdiğimde admin yetkisi gösterilecek
                user && user.email ==="asli.aytass@gmail.com"&& (
-                 <Link className='link' to={'/createItem'}><p>New Item <MdAdd className='mdAdd ms-1'/></p></Link>
+                 <Link id='link' to={'/createItem'}><p>New Item <MdAdd className='mdAdd ms-1'/></p></Link>
                )
               }
                <p onClick={logout}>Logout<MdLogout className='mdLogout ms-3'/></p>
